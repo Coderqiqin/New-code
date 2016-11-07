@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8" />
 		<title>放大镜</title>
@@ -8,29 +7,24 @@
 			* {
 				padding: 0;
 				margin: 0;
-			}
-			
+			}	
 			img {
 				font-size: 0;
 			}
-			
 			body {
 				background: lightslategrey;
 			}
-			
 			.out {
 				width: 350px;
 				margin: 100px 100px;
 				position: relative;
 			}
-			
 			.out .content .small {
 				width: 350px;
 				height: 501.5px;
 				position: relative;
 				border: 1px solid gray;
 			}
-			
 			.out .content .small img {
 				width: 350px;
 				height: 501.5px;
@@ -38,24 +32,20 @@
 				top: 0;
 				left: 0;
 			}
-			
 			#small2 {
 				display: none;
 			}
-			
 			.out .content .scroll img {
 				width: 100px;
 				height: 143.281px;
 			}
 			/*设置轮播图外观*/
-			
 			.out .window {
 				width: 352px;
 				height: 143.281px;
 				position: relative;
 				overflow: hidden;
 			}
-			
 			.out .window .scroll {
 				width: 600px;
 				height: 143.281px;
@@ -81,10 +71,6 @@
 			.out .content .big img {
 				position: absolute;
 			}
-			/*w730    h1046*/
-			/*放大镜显示区域的宽高 /  大图宽高 * 小图宽高 = 蒙版宽高*/
-			/*设置蒙版的外观*/
-			
 			#mask {
 				width: 216.086px;
 				height: 309.6167px;
@@ -93,13 +79,11 @@
 				display: none;
 				background: rgba(254, 237, 153, 0.75);
 			}
-			
 			#scroll_left {
 				position: absolute;
 				top: 0px;
 				left: 0px;
 			}
-			
 			#scroll_right {
 				position: absolute;
 				top: 0px;
@@ -107,7 +91,6 @@
 			}
 		</style>
 	</head>
-
 	<body>
 		<div class="out">
 			<div class="content">
@@ -118,7 +101,6 @@
 				<div class="window">
 					<div class="scroll">
 						<img src="img/1.jpg" alt="" /><img src="img/2.jpg" alt="" id="scroll2" /><img src="img/3.jpg" alt="" /><img src="img/4.jpg" alt="" /><img src="img/5.jpg" alt="" /><img src="img/6.jpg" alt="" />
-
 					</div>
 					<input type="button" id="scroll_left" value="<" />
 					<input type="button" id="scroll_right" value=">" />
@@ -212,5 +194,4 @@
 			}
 		}
 	</script>
-
 </html>
