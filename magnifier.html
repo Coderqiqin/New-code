@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>放大镜</title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			img {
+				font-size: 0;
+			}
+			
+			body {
+				background: lightslategrey;
+			}
+			
+			.out {
+				width: 350px;
+				margin: 100px 100px;
+				position: relative;
+			}
+			
+			.out .content .small {
+				width: 350px;
+				height: 501.5px;
+				position: relative;
+				border: 1px solid gray;
+			}
+			
+			.out .content .small img {
+				width: 350px;
+				height: 501.5px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			
+			#small2 {
+				display: none;
+			}
+			
+			.out .content .scroll img {
+				width: 100px;
+				height: 143.281px;
+			}
+			/*设置轮播图外观*/
+			
+			.out .window {
+				width: 352px;
+				height: 143.281px;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.out .window .scroll {
+				width: 600px;
+				height: 143.281px;
+				position: absolute;
+			}
+			.out .window input {
+				border: 0;
+				width: 15px;
+				height: 143.281px;
+				color: white;
+				font-size: 20px;
+				background: rgba(0,0,0,0.5);
+			}
+			.out .content .big {
+				width: 450.694px;
+				height: 645.781px;
+				overflow: hidden;
+				position: absolute;
+				top: 0;
+				left: 360px;
+				display: none;
+			}
+			.out .content .big img {
+				position: absolute;
+			}
+			/*w730    h1046*/
+			/*放大镜显示区域的宽高 /  大图宽高 * 小图宽高 = 蒙版宽高*/
+			/*设置蒙版的外观*/
+			
+			#mask {
+				width: 216.086px;
+				height: 309.6167px;
+				position: absolute;
+				top: 0;
+				display: none;
+				background: rgba(254, 237, 153, 0.75);
+			}
+			
+			#scroll_left {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			
+			#scroll_right {
+				position: absolute;
+				top: 0px;
+				left: 337px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="out">
+			<div class="content">
+				<div class="small">
+					<img src="img/1.jpg" id="small" />
+					<div id="mask"></div>
+				</div>
+				<div class="window">
+					<div class="scroll">
+						<img src="img/1.jpg" alt="" /><img src="img/2.jpg" alt="" id="scroll2" /><img src="img/3.jpg" alt="" /><img src="img/4.jpg" alt="" /><img src="img/5.jpg" alt="" /><img src="img/6.jpg" alt="" />
+
+					</div>
+					<input type="button" id="scroll_left" value="<" />
+					<input type="button" id="scroll_right" value=">" />
+				</div>
+				<div class="big">
+					<img src="img/1.jpg" id="big" />
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var out = document.getElementsByClassName("out")[0];
+		//获取big中的大图片
+		var bigImg = document.getElementById("big");
+		//获取存放小图的div标签
+		var small = document.getElementsByClassName("small")[0];
+		//获取黄色标签和window标签
+		var maskM = document.getElementById("mask");
+		var big = document.getElementsByClassName("big")[0];
+		var small2 = document.getElementById("small2");
+		var scroll2 = document.getElementById("scroll2");
+		small.onmouseenter = function() {
+			big.style.display = "block";
+			maskM.style.display = "block";
+			document.onmousemove = function(e) {
+				//获取鼠标移动事件
+				var even = e || window.event;
+				//获取鼠标点击位置距离窗口左侧和上端的距离
+				var x = even.clientX;
+				var y = even.clientY;
+				//获取smll标签左侧和上端的距离
+				var leftX = out.offsetLeft;
+				var topY = out.offsetTop;
+				//获取黄色标签的宽度和高度
+				var width = maskM.clientWidth;
+				var height = maskM.clientHeight;
+				var offsetX = x - leftX - width / 2;
+				var offsetY = y - topY - height / 2;
+				if(offsetX <= 0) {
+					offsetX = 0;
+				} else if(offsetX >= small.clientWidth - width) {
+					offsetX = small.clientWidth - width
+				}
+				if(offsetY <= 0) {
+					offsetY = 0;
+				} else if(offsetY >= small.clientHeight - height) {
+					offsetY = small.clientHeight - height;
+				}
+				//移动黄色标签
+				maskM.style.left = offsetX + "px";
+				maskM.style.top = offsetY + "px";
+				//计算比例系数
+				var scaleX = (bigImg.clientWidth - big.clientWidth) / (small.clientWidth - width);
+				var scaleY = (bigImg.clientHeight - big.clientHeight) / (small.clientHeight - height);
+				//修改大图的left和top
+				bigImg.style.left = -scaleX * offsetX + "px";
+				bigImg.style.top = -scaleY * offsetY + "px";
+			}
+		}
+		small.onmouseleave = function () {
+			maskM.style.display = "none";
+			big.style.display = "none";
+		}
+		//设置轮播图
+		var scrollLeft = document.getElementById("scroll_left");
+		var scrollRight = document.getElementById("scroll_right");
+		//获取轮播图中包裹图片的内容层标签
+		var scroll = document.getElementsByClassName("scroll")[0];
+		scrollLeft.onclick = function () {
+			//右移
+			scroll.style.left = (scroll.offsetLeft+50) + "px";
+			if (scroll.offsetLeft >= 0) {
+				scroll.style.left = 0;
+			}
+		}
+		scrollRight.onclick = function () {
+			//左移
+			scroll.style.left = (scroll.offsetLeft-50) + "px";
+			if (scroll.offsetLeft <= -248) {
+				scroll.style.left = "-248px";
+			}
+		}
+		//获取所有的scroll中img标签
+		var imgs = document.querySelectorAll(".scroll img");
+		var smallImg = document.getElementById("small");
+		for (var i = 0; i < imgs.length; i++) {
+			imgs[i].index = i;
+			imgs[i].onmouseenter = function () {
+				smallImg.src = "img/"+(this.index+1)+".jpg";
+				bigImg.src = "img/"+(this.index+1)+".jpg";
+			}
+		}
+	</script>
+
+</html>
